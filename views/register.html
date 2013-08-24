@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MancJS: Rock, Paper, Scissors</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
+  <link href="css/app.css" rel="stylesheet" media="screen" />
+</head>
+<body>
+  <h1>Register</h1>
+
+  <div class="container">
+    {{#noUsername}}
+      <div class="alert alert-warning">
+        Usernames must be 20 chars or less, and match /^[a-zA-Z0-9_]+$/
+      </div>
+    {{/noUsername}}
+
+    {{#userExists}}
+      <div class="alert alert-warning">
+        This username is taken, choose another
+      </div>
+    {{/userExists}}
+
+    {{#registrationOff}}
+      <div class="alert alert-info">
+        Registration is now closed
+      </div>
+    {{/registrationOff}}
+
+    {{#registrationOff}}
+    <div class="registration-off">
+    {{/registrationOff}}
+
+    <form method="post" action="/register">
+      <input type="text" name="username" placeholder="enter username" {{#registrationOff}}disabled="disabled"{{/registrationOff}} />
+      <button type="submit" class="btn btn-success submit" {{#registrationOff}}disabled="disabled"{{/registrationOff}}>Create Team</button>
+    </form>
+
+    {{#registrationOff}}
+    </div>
+    {{/registrationOff}}
+  </div>
+
+  <script src="js/jquery.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+</body>
+</html>

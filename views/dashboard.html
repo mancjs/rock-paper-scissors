@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MancJS: Rock, Paper, Scissors</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
+  <link href="css/app.css" rel="stylesheet" media="screen" />
+</head>
+<body>
+  <h1>{{username}}</h1>
+
+  <div style="background:#f9f9f9; margin: -25px 0; padding: 20px 0; text-shadow: 1px 1px #fff">
+
+    <div class="container">
+      <h2>
+        Update Bot Script
+        <div>{{botUploads}} updates | {{botLOC}} lines of code | updated {{botLastUpdated}}</div>
+      </h2>
+
+      <form method="post" action="/update" enctype="multipart/form-data">
+        <input type="hidden" name="key" value="{{key}}" />
+        <input type="hidden" name="username" value="{{username}}" />
+        <input type="file" name="bot" onchange="javascript:this.form.submit();" />
+      </form>
+    </div>
+
+  </div>
+
+  <div class="bot-stats">
+    <h2>Bot Performance</h2>
+    ...
+  </div>
+
+  <script src="js/jquery.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+</body>
+</html>

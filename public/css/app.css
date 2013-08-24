@@ -1,0 +1,68 @@
+body {
+  font-size: 16px;
+  color: #444;
+}
+
+.container {
+  width: 600px;
+  padding: 0 0 0 25px;
+  margin: 0;
+}
+
+h1 {
+  margin-bottom: 25px;
+  padding: 0 0 25px 25px;
+  border-bottom: solid 1px #ddd;
+}
+
+h2 {
+  font-size: 20px;
+  color: #666;
+  padding: 0 0 20px 0;
+  margin: 0;
+}
+
+h2 div {
+  font-size: 15px;
+  font-weight: 400;
+  color: #aaa;
+  padding: 6px 0;
+  display: block;
+}
+
+input[type='file'] {
+  color: transparent;
+  display: inline;
+  width: 90px;
+}
+
+input[type='text'] {
+  vertical-align: top;
+  font-size: 20px;
+  padding: 10px;
+  width: 412px;
+  border: solid 1px #bbb;
+  border-radius: 4px;
+}
+
+button.submit {
+  vertical-align: top;
+  margin-left: 10px;
+  font-size: 20px;
+  padding: 10px 15px;
+}
+
+.alert-info div {
+  font-size: 18px;
+}
+
+.bot-stats {
+  border-top: solid 1px #ddd;
+  margin-top: 25px;
+  padding: 25px 0 0 25px;
+}
+
+.registration-off {
+  opacity: 0.3;
+  background: #fff;
+}

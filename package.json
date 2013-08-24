@@ -1,0 +1,20 @@
+{
+  "name": "rps",
+  "version": "0.0.0",
+  "description": "MancJS Rock, Paper, Scissors server",
+  "main": "server.js",
+  "dependencies": {
+    "async": "~0.2.9",
+    "underscore": "~1.5.1",
+    "express": "~3.3.5",
+    "mustachex": "0.0.2",
+    "moment": "~2.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node rps.js"
+  },
+  "author": "Martin Rue",
+  "license": "BSD-2-Clause"
+}

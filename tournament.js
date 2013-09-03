@@ -45,6 +45,7 @@ var play = function(callback) {
 
     db[player1.name].history[player2.name] = {
       youWon: result.winner === player1.name,
+      youDrew: result.winner === 'draw',
       you: result[player1.name],
       opponent: result[player2.name],
       handsPlayed: result.log.length,
@@ -53,6 +54,7 @@ var play = function(callback) {
 
     db[player2.name].history[player1.name] = {
       youWon: result.winner === player2.name,
+      youDrew: result.winner === 'draw',
       you: result[player2.name],
       opponent: result[player1.name],
       handsPlayed: result.log.length,

@@ -9,7 +9,23 @@ var auth = express.basicAuth(function(user, pass) {
 
 var routes = function(app) {
   app.get('/debug', auth, function(req, res) {
-    return res.json(database.get());
+    var db = database.get();
+    var result = {};
+
+    _.each(db, function(data, username) {
+      result[username] = {
+        key: data.key,
+        botLOC: data.botLOC,
+        botUploads: data.botUploads,
+        created: data.created,
+        botLastUpdated: data.botLastUpdated,
+        botFile: data.botFile,
+        results: data.results,
+        handStats: data.handStats
+      };
+    });
+
+    return res.json(result);
   });
 
   app.get('/debug/rm/:username', auth, function(req, res) {

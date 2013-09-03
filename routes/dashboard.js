@@ -16,6 +16,42 @@ var countPlayers = function() {
   }).true || 1;
 };
 
+var generateHandHistory = function(history, yourusername) {
+  var result = {};
+
+  _.each(_.keys(history), function(username) {
+    var user = history[username];
+
+    result[username] = {
+      youWon: user.youWon,
+      youDrew: user.youDrew,
+      you: user.you,
+      opponent: user.opponent,
+      handsPlayed: user.handsPlayed,
+      hands: _.map(user.hands, function(hand) {
+        return {
+          you: hand[yourusername],
+          opponent: hand[username],
+          winner: hand.winner
+        }
+      })
+    };
+  });
+
+  return result;
+};
+
+var getBotUpdates = function() {
+  var db = database.get();
+
+  return _.map(db, function(data, username) {
+    return {
+      username: username,
+      botLastUpdated: data.botLastUpdated ? moment(data.botLastUpdated).from(new Date) : 'never'
+    }
+  });
+};
+
 var routes = function(app) {
   app.get('/dashboard', function(req, res) {
     var model = {
@@ -30,10 +66,16 @@ var routes = function(app) {
     var data = database.get()[model.username];
 
     model.playerCount = countPlayers() - 1;
+    model.botUpdates = getBotUpdates();
     model.botLastUpdated = data.botLastUpdated ? moment(data.botLastUpdated).from(new Date) : 'never';
     model.botUploads = data.botUploads;
     model.botLOC = data.botLOC;
     model.results = data.results || { won: 0, lost: 0, drew: 0 };
+    model.handStats = _.pairs(data.handStats);
+
+    if (data.history) {
+      model.handHistory = _.pairs(generateHandHistory(data.history, model.username));
+    }
 
     return res.render('dashboard', model);
   });

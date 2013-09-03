@@ -4,6 +4,7 @@
   <title>MancJS: Rock, Paper, Scissors</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
+  <link href="css/font-awesome.min.css" rel="stylesheet" media="screen" />
   <link href="css/app.css" rel="stylesheet" media="screen" />
 </head>
 <body>
@@ -45,10 +46,112 @@
   </div>
 
   <div class="bot-stats">
-    <h2>Bot Performance</h2>
+    <h2>Your Opponents</h2>
+  </div>
+
+  {{#handHistory}}
+  <div class="bot-history expandable">
+    <div class="bot-icon">
+      {{#1.youWon}}
+        <span class="icon-ok-circle"></span>
+      {{/1.youWon}}
+
+      {{^1.youWon}}
+        <span class="icon-remove-circle {{#1.youDrew}}icon-minus{{/1.youDrew}}"></span>
+      {{/1.youWon}}
+    </div>
+
+    <div class="bot-name">{{0}}</div>
+
+    <div class="hand-result">
+    <b>{{1.you.d}}</b> <span>drew</span>
+    </div>
+
+    <div class="hand-result">
+    <b>{{1.you.l}}</b> <span>lost</span>
+    </div>
+
+    <div class="hand-result">
+    <b>{{1.you.w}}</b> <span>won</span>
+    </div>
+  </div>
+
+  <div class="hands-container">
+    <table border="0" class="table">
+      <thead>
+      <tr>
+        <th>Your Hand</th>
+        <th>Opponent Hand</th>
+        <th>Winner</th>
+      </tr>
+      </thead>
+
+      {{#1.hands}}
+      <tr>
+        <td>{{you}}</td>
+        <td>{{opponent}}</td>
+        <td>{{winner}}</td>
+      </tr>
+      {{/1.hands}}
+    </table>
+  </div>
+
+  {{/handHistory}}
+
+  <div class="bot-stats">
+    <h2>Hand Stats</h2>
+  </div>
+
+  {{#handStats}}
+    <div class="bot-history no-hover">
+      <div class="bot-name">{{0}}</div>
+
+      <div class="hand-result">
+        <b>{{1.water}}</b> <span>water</span>
+      </div>
+
+      <div class="hand-result">
+        <b>{{1.dynamite}}</b> <span>dynamite</span>
+      </div>
+
+      <div class="hand-result">
+        <b>{{1.scissors}}</b> <span>scissors</span>
+      </div>
+
+      <div class="hand-result">
+        <b>{{1.paper}}</b> <span>paper</span>
+      </div>
+
+      <div class="hand-result">
+        <b>{{1.rock}}</b> <span>rock</span>
+      </div>
+
+    </div>
+  {{/handStats}}
+
+  <div class="bot-stats">
+    <h2>Bot Updates</h2>
+  </div>
+
+  <div class="bot-updates">
+    {{#botUpdates}}
+    <div class="bot-update">
+      <div class="bot-update-name">{{username}}</div>
+      <div class="bot-update-date">{{botLastUpdated}}</div>
+    </div>
+    {{/botUpdates}}
   </div>
 
   <script src="js/jquery.js"></script>
   <script src="js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+
+    $(function() {
+      $('.bot-history.expandable').click(function() {
+        $(this).next().slideToggle();
+      });
+    });
+
+  </script>
 </body>
 </html>

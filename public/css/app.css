@@ -1,6 +1,7 @@
 body {
   font-size: 16px;
   color: #444;
+  -webkit-font-smoothing: antialiased;
 }
 
 .container {
@@ -11,8 +12,15 @@ body {
 
 h1 {
   margin-bottom: 25px;
-  padding: 0 0 25px 25px;
+  padding: 5px 0 25px 25px;
   border-bottom: solid 1px #ddd;
+}
+
+h1 div {
+  padding: 10px 0 0 0;
+  margin: 0;
+  font-weight: 400;
+  font-size: 15px;
 }
 
 h2 {
@@ -25,7 +33,7 @@ h2 {
 h2 div {
   font-size: 15px;
   font-weight: 400;
-  color: #aaa;
+  color: #777;
   padding: 6px 0;
   display: block;
 }
@@ -65,4 +73,45 @@ button.submit {
 .registration-off {
   opacity: 0.3;
   background: #fff;
+}
+
+.bot-update-container {
+  background:#f9f9f9;
+  margin: -25px 0;
+  padding: 20px 0;
+  text-shadow: 1px 1px #fff;
+}
+
+.bot-perf-bar {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  overflow: hidden;
+  display: inline-block;
+  border:solid 1px #ddd;
+  border-radius: 4px;
+}
+
+.bot-perf-bar div {
+  float: left;
+  font-size: 24px;
+  color: #444;
+  font-weight: 400;
+  background:#f9f9f9;
+  padding: 10px 25px;
+  text-align: center;
+  text-shadow: 1px 1px #fff;
+  border-right:solid 1px #fff;
+}
+
+.bot-perf-bar div:last-child {
+  border-right: none;
+}
+
+.bot-perf-bar div span {
+  display: block;
+  padding-top: 5px;
+  font-weight: 300;
+  text-transform: uppercase;
+  font-size: 14px;
 }

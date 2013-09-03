@@ -185,7 +185,7 @@ var Game = function() {
     if (player1.hand === player2.hand) {
       player1.draws += 1;
       player2.draws += 1;
-      log.winner = 'draw – point carries';
+      log.winner = 'draw - point carries';
       log.draw = true;
       return log;
     }

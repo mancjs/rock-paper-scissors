@@ -1,6 +1,6 @@
 var express = require('express');
 var database = require('../data/db');
-var server = require('../game/server');
+var tournament = require('../tournament');
 var _ = require('underscore');
 
 var auth = express.basicAuth(function(user, pass) {
@@ -40,25 +40,9 @@ var routes = function(app) {
   });
 
   app.get('/debug/play', auth, function(req, res) {
-    var games = 0;
-
-    var players = [
-      { name: 'jacob', script: process.cwd() + '/bots/paper.js' },
-      { name: 'matt', script: process.cwd() + '/bots/rock.js' }
-    ];
-
-    var gameFinished = function(result) {
-      console.log(result);
-      games++;
-    };
-
-    var allFinished = function() {
-      console.log('all games finished: ' + games);
-    };
-
-    server.go(players, gameFinished, allFinished);
-
-    return res.redirect('/debug');
+    tournament.play(function() {
+      return res.redirect('/debug');
+    });
   });
 };
 

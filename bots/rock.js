@@ -1,13 +1,9 @@
-var i = 0;
-var hands = ['rock', 'paper', 'scissors', 'paper', 'paper'];
-
 var init = function(opponent) {
 
 };
 
 var play = function() {
-  //return hands[Math.floor(Math.random() * 3)];
-  return hands[i++];
+  return 'rock';
 };
 
 var result = function(result) {

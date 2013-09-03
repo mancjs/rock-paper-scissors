@@ -7,9 +7,27 @@
   <link href="css/app.css" rel="stylesheet" media="screen" />
 </head>
 <body>
-  <h1>{{username}}</h1>
+  <h1>
+    {{username}}
+    <div>competing with {{playerCount}} other players</div>
+  </h1>
 
-  <div style="background:#f9f9f9; margin: -25px 0; padding: 20px 0; text-shadow: 1px 1px #fff">
+  <div class="bot-perf-bar">
+    <div>
+      {{results.won}}
+      <span>won</span>
+    </div>
+    <div>
+      {{results.lost}}
+      <span>lost</span>
+    </div>
+    <div>
+      {{results.drew}}
+      <span>drew</span>
+    </div>
+  </div>
+
+  <div class="bot-update-container">
 
     <div class="container">
       <h2>
@@ -28,7 +46,6 @@
 
   <div class="bot-stats">
     <h2>Bot Performance</h2>
-    ...
   </div>
 
   <script src="js/jquery.js"></script>

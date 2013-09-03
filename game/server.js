@@ -27,14 +27,16 @@ var go = function(players, onGameComplete, onFinished) {
   var queue = async.queue(function(fixture, callback) {
     var game = child.fork(__dirname + '/game');
 
-    game.send({
+    var command = {
       command: 'play',
       player1: fixture[0],
       player2: fixture[1]
-    });
+    };
+
+    game.send(command);
 
     game.on('message', function(data) {
-      onGameComplete(data.result);
+      onGameComplete(command.player1, command.player2, data.result);
       callback();
     });
   }, 40);

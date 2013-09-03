@@ -8,6 +8,14 @@ var countSignificantLines = function(file) {
   return _.without(data.split('\n'), '').length;
 };
 
+var countPlayers = function() {
+  var db = database.get();
+
+  return _.countBy(_.keys(db), function(user) {
+    return db[user].botFile !== undefined;
+  }).true || 1;
+};
+
 var routes = function(app) {
   app.get('/dashboard', function(req, res) {
     var model = {
@@ -19,10 +27,13 @@ var routes = function(app) {
       return res.redirect('/register');
     }
 
-    var botLastUpdated = database.get()[model.username].botLastUpdated;
-    model.botLastUpdated = botLastUpdated ? moment(botLastUpdated).from(new Date) : 'never';
-    model.botUploads = database.get()[model.username].botUploads;
-    model.botLOC = database.get()[model.username].botLOC;
+    var data = database.get()[model.username];
+
+    model.playerCount = countPlayers() - 1;
+    model.botLastUpdated = data.botLastUpdated ? moment(data.botLastUpdated).from(new Date) : 'never';
+    model.botUploads = data.botUploads;
+    model.botLOC = data.botLOC;
+    model.results = data.results || { won: 0, lost: 0, drew: 0 };
 
     return res.render('dashboard', model);
   });

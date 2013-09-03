@@ -21,7 +21,6 @@ var addUser = function(username) {
   };
 
   database.save();
-
   return key;
 };
 
@@ -37,6 +36,7 @@ var routes = function(app) {
   app.post('/register', function(req, res) {
     var username = req.body.username;
 
+    if (app.get('registration') === 'off') return res.redirect('/register');
     if (invalidUsername(username)) return res.redirect('/register?err=nousername');
     if (userExists(username)) return res.redirect('/register?err=userexists');
 

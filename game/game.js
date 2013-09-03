@@ -22,8 +22,8 @@ var Game = function() {
   };
 
   var loadPlayers = function(player1, player2, timeout, callback) {
-    sendCommand(player1.process, 'init', { script: player1.script });
-    sendCommand(player2.process, 'init', { script: player2.script });
+    sendCommand(player1.process, 'init', { opponent: player2.name, script: player1.script });
+    sendCommand(player2.process, 'init', { opponent: player1.name, script: player2.script });
 
     var doReadyCheck = function() {
       if (!player1.ready) {
@@ -51,6 +51,7 @@ var Game = function() {
 
   var play = function(player1, player2, callback) {
     var rounds = 0;
+    var carryPoints = 0;
     var log = [];
 
     player1.dynamite = 0;
@@ -64,14 +65,14 @@ var Game = function() {
     player2.losses = 0;
 
     var checkDynamiteUsage = function(maxDynamite) {
-      if (player1.draw === 'dynamite') {
+      if (player1.hand === 'dynamite') {
         player1.dynamite += 1;
-        player1.draw = (player1.dynamite > maxDynamite) ? '' : player1.draw;
+        player1.hand = (player1.dynamite > maxDynamite) ? '(exceeded dynamite)' : player1.hand;
       }
 
-      if (player2.draw === 'dynamite') {
+      if (player2.hand === 'dynamite') {
         player2.dynamite += 1;
-        player2.draw = (player2.dynamite > maxDynamite) ? '' : player2.draw;
+        player2.hand = (player2.dynamite > maxDynamite) ? '(exceeded dynamite)' : player2.hand;
       }
     };
 
@@ -112,7 +113,9 @@ var Game = function() {
         rounds += 1;
 
         checkDynamiteUsage(10);
-        var result = score(player1, player2);
+
+        var result = score(player1, player2, carryPoints);
+        carryPoints = result.draw ? (carryPoints + 1) : 0;
         log.push(result);
 
         if (player1.memoryExceeded || player2.memoryExceeded) return finishGame();
@@ -144,66 +147,69 @@ var Game = function() {
     playRound();
   };
 
-  var score = function(player1, player2) {
+  var score = function(player1, player2, carryPoints) {
     var log = {};
     log[player1.name] = player1.hand;
     log[player2.name] = player2.hand;
 
-    if (player1.memoryExceeded) {
-      player2.wins += 1;
-      player1.losses += 1;
-      log.winner = player2.name + ' - ' + player1.name + ' exceeded memory limit';
-      return log;
-    }
+    var winPoints = 1 + carryPoints;
 
-    if (player2.memoryExceeded) {
-      player1.wins += 1;
-      player2.losses += 1;
-      log.winner = player1.name + ' - ' + player2.name + ' exceeded memory limit';
-      return log;
-    }
+    var exceededMemoryLimit = function(player, opponent) {
+      if (player.memoryExceeded) {
+        player.losses += 1;
+        opponent.wins += winPoints;
+        log.winner = opponent.name + ' - ' + player.name + ' exceeded memory limit';
+        return true;
+      }
 
-    if (player1.err) {
-      player2.wins += 1;
-      player1.losses += 1;
-      log.winner = player2.name + ' - ' + player1.name + ': ' + player1.err;
-      return log;
-    }
+      return false;
+    };
 
-    if (player2.err) {
-      player1.wins += 1;
-      player2.losses += 1;
-      log.winner = player1.name + ' - ' + player2.name + ': ' + player2.err;
-      return log;
-    }
+    var playerHasErrored = function(player, opponent) {
+      if (player.err) {
+        player.losses += 1;
+        opponent.wins += winPoints;
+        log.winner = opponent.name + ' - ' + player.name + ': ' + player.err;
+        return true;
+      }
+
+      return false;
+    };
+
+    if (exceededMemoryLimit(player1, player2)) return log;
+    if (exceededMemoryLimit(player2, player1)) return log;
+
+    if (playerHasErrored(player1, player2)) return log;
+    if (playerHasErrored(player2, player1)) return log;
 
     if (player1.hand === player2.hand) {
       player1.draws += 1;
       player2.draws += 1;
-      log.winner = 'draw';
+      log.winner = 'draw – point carries';
+      log.draw = true;
       return log;
     }
 
     if (!player1.hand) {
-      player2.wins += 1;
+      player2.wins += winPoints;
       player1.losses += 1;
       log.winner = player2.name + ' - ' + player1.name + ' default';
       return log;
     }
 
     if (!player2.hand) {
-      player1.wins += 1;
+      player1.wins += winPoints;
       player2.losses += 1;
       log.winner = player1.name + ' - ' + player2.name + ' default';
       return log;
     }
 
     if (_.contains(rules[player1.hand], player2.hand)) {
-      player1.wins += 1;
+      player1.wins += winPoints;
       player2.losses += 1;
       log.winner = player1.name;
     } else {
-      player2.wins += 1;
+      player2.wins += winPoints;
       player1.losses += 1;
       log.winner = player2.name;
     }
@@ -214,15 +220,11 @@ var Game = function() {
   var start = function(player1, player2, callback) {
     player1.process = child.fork(__dirname + '/player');
     player1.process.on('message', _.partial(receiveEvent, player1));
-    player1.process.on('error', function(err) {
-      console.log('player1: ' + err);
-    });
+    player1.process.on('error', function() {});
 
     player2.process = child.fork(__dirname + '/player');
     player2.process.on('message', _.partial(receiveEvent, player2));
-    player2.process.on('error', function(err) {
-      console.log('player2: ' + err);
-    });
+    player2.process.on('error', function() {});
 
     loadPlayers(player1, player2, 10000, function(winner) {
       if (winner) {

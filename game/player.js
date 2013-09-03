@@ -4,7 +4,7 @@ var _ = require('underscore');
 
 var player = {
   console: console,
-  eval: function(string) { },
+  eval: function() { return ':-)' },
   _: _
 };
 
@@ -13,13 +13,14 @@ var currentHeap;
 var memoryTimer;
 
 process.on('message', function(data) {
-  if (data.command === 'init') return init(data.script);
+  if (data.command === 'init') return init(data.script, data.opponent);
   if (data.command === 'play') return play();
   if (data.command === 'result') return result(data.result);
+  if (data.command === 'end') return end();
 });
 
 process.on('uncaughtException', function(err) {
-  sendEvent('err', { err: err.toString() });
+  raiseEvent('err', { err: err.toString() });
 });
 
 var checkMemoryUsage = function() {
@@ -27,27 +28,31 @@ var checkMemoryUsage = function() {
 
   if (currentHeap > 50) {
     clearInterval(memoryTimer);
-    sendEvent('memory');
+    raiseEvent('memory');
   }
 };
 
-var sendEvent = function(event, data) {
+var raiseEvent = function(event, data) {
   process.send(_.extend({ event: event }, data));
 };
 
-var init = function(script) {
+var init = function(script, opponent) {
   vm.runInNewContext(fs.readFileSync(script, 'utf8'), player);
-  player.init();
-  sendEvent('init');
+  player.init(opponent);
+  raiseEvent('init');
 };
 
 var play = function() {
   var hand = player.play(currentHeap);
-  sendEvent('play', { hand: hand });
+  raiseEvent('play', { hand: hand });
 };
 
 var result = function(result) {
   player.result(result);
+};
+
+var end = function() {
+  player.end();
 };
 
 memoryTimer = setInterval(checkMemoryUsage, 1000);

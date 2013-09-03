@@ -2,24 +2,6 @@ var child = require('child_process');
 var async = require('async');
 var _ = require('underscore');
 
-var players = [
-  { name: 'jacob', script: process.cwd() + '/bots/paper.js' },
-  { name: 'matt', script: process.cwd() + '/bots/paper.js' },
-  { name: 'smith', script: process.cwd() + '/bots/paper.js' },
-  { name: 'fred', script: process.cwd() + '/bots/paper.js' },
-  { name: 'will', script: process.cwd() + '/bots/paper.js' },
-  { name: 'mae1', script: process.cwd() + '/bots/random-dynamite.js' },
-  { name: 'mae2', script: process.cwd() + '/bots/random.js' },
-  { name: 'mae3', script: process.cwd() + '/bots/random-water.js' },
-  { name: 'mae4', script: process.cwd() + '/bots/paper.js' },
-  { name: 'mae5', script: process.cwd() + '/bots/random-dynamite.js' },
-  { name: 'mae6', script: process.cwd() + '/bots/scissors.js' },
-  { name: 'mae7', script: process.cwd() + '/bots/rock.js' },
-  { name: 'mae8', script: process.cwd() + '/bots/random-water.js' },
-  { name: 'mae9', script: process.cwd() + '/bots/random-dynamite.js' },
-  { name: 'mae10', script: process.cwd() + '/bots/random.js' }
-];
-
 var buildFixtures = function(players) {
   var fixtures = [];
 
@@ -39,7 +21,7 @@ var buildFixtures = function(players) {
   return fixtures;
 };
 
-var go = function(onGameComplete, onFinished) {
+var go = function(players, onGameComplete, onFinished) {
   var fixtures = buildFixtures(players);
 
   var queue = async.queue(function(fixture, callback) {
@@ -55,7 +37,7 @@ var go = function(onGameComplete, onFinished) {
       onGameComplete(data.result);
       callback();
     });
-  }, 50);
+  }, 40);
 
   queue.push(fixtures);
   queue.drain = onFinished;

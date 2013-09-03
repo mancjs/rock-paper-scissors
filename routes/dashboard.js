@@ -32,11 +32,17 @@ var routes = function(app) {
     var key = req.body.key;
     var file = req.files['bot'];
 
-    database.get()[username].botLastUpdated = new Date;
-    database.get()[username].botUploads += 1;
-    database.get()[username].botLOC = countSignificantLines(file.path);
-    database.get()[username].botFile = file.path;
-    database.save();
+    if (!database.get()[username] || database.get()[username].key !== key) {
+      return res.redirect('/register');
+    }
+
+    if (file) {
+      database.get()[username].botLastUpdated = new Date;
+      database.get()[username].botUploads += 1;
+      database.get()[username].botLOC = countSignificantLines(file.path);
+      database.get()[username].botFile = file.path;
+      database.save();
+    }
 
     return res.redirect('/dashboard?username=' + username + '&key=' + key);
   });

@@ -194,6 +194,16 @@ var Game = function() {
     log[player1.name] = player1.hand;
     log[player2.name] = player2.hand;
 
+    var validHands = ['rock', 'paper', 'scissors', 'dynamite', 'water'];
+
+    if (!_.contains(validHands, player1.hand)) {
+      player1.hand = 'rock';
+    }
+
+    if (!_.contains(validHands, player2.hand)) {
+      player2.hand = 'rock';
+    }
+
     var winPoints = 1 + carryPoints;
 
     var exceededMemoryLimit = function(player, opponent) {

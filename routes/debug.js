@@ -4,7 +4,7 @@ var tournament = require('../tournament');
 var _ = require('underscore');
 
 var auth = express.basicAuth(function(user, pass) {
-  return user === 'user' && pass === 'pass';
+  return user === 'martin' && pass === '1147971058323258';
 });
 
 var routes = function(app) {

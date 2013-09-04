@@ -168,7 +168,7 @@ var Game = function() {
         playRound();
       };
 
-      var attempts = 5;
+      var attempts = 13;
 
       var interval = setInterval(function() {
         attempts--;

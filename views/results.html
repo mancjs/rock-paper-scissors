@@ -4,16 +4,35 @@
   <title>MancJS: Rock, Paper, Scissors</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
+  <link href="css/font-awesome.min.css" rel="stylesheet" media="screen" />
   <link href="css/app.css" rel="stylesheet" media="screen" />
 </head>
 <body>
-  <h1>Results</h1>
+  <h1>
+    Bot Results
+  </h1>
 
-  <div class="container">
-  ...
+  {{#results}}
+  <div class="bot-history no-hover">
+    <div class="bot-position">
+      {{position}}
+    </div>
+
+    <div class="bot-name">{{username}}</div>
+
+    <div class="hand-result">
+    <b>{{lost}}</b> <span>lost</span>
+    </div>
+
+    <div class="hand-result">
+    <b>{{drew}}</b> <span>drew</span>
+    </div>
+
+    <div class="hand-result">
+    <b>{{won}}</b> <span>won</span>
+    </div>
   </div>
+  {{/results}}
 
-  <script src="js/jquery.js"></script>
-  <script src="js/bootstrap.min.js"></script>
 </body>
 </html>

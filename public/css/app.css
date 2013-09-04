@@ -144,6 +144,14 @@ button.submit {
   padding: 12px 0 12px 15px;
 }
 
+.bot-history .bot-position {
+  float: left;
+  font-weight: 900;
+  font-size: 30px;
+  padding: 12px 15px;
+  border-right: solid 1px #ddd;
+}
+
 .bot-history .bot-icon .icon-ok-circle {
   color: #44cc44;
 }

@@ -2,7 +2,12 @@ var database = require('../data/db');
 var _ = require('underscore');
 
 var invalidUsername = function(username) {
-  return username.length > 20 || !(/^[a-zA-Z0-9_]+$/).test(username);
+  var invalidNames = ['this', 'winner', 'won', 'w', 'lost', 'l', 'drew', 'd'];
+
+  if (username.length > 20 || !(/^[a-zA-Z0-9_]+$/).test(username)) return true;
+  if (_.contains(invalidNames, username.toLowerCase())) return true;
+
+  return false;
 };
 
 var userExists = function(username) {

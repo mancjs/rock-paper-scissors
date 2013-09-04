@@ -28,8 +28,6 @@ var play = function(callback) {
   };
 
   var gameFinished = function(player1, player2, result) {
-    //console.log(result);
-
     if (result.winner === player1.name) {
       db[player1.name].results.won += 1;
       db[player2.name].results.lost += 1;
@@ -75,16 +73,18 @@ var play = function(callback) {
       rock: countHands(result.log, player2.name, 'rock'),
       paper: countHands(result.log, player2.name, 'paper'),
       scissors: countHands(result.log, player2.name, 'scissors'),
-      dynamite: countHands(result.log, player2.name, 'dynamite'),
-      water: countHands(result.log, player2.name, 'water')
+      dynamite: countHands(result.log, player2.name, 'dynamite') + countHands(result.log, player2.name, '(exceeded dynamite)'),
+      water: countHands(result.log, player2.name, 'water'),
+      errors: countHands(result.log, player2.name, '')
     };
 
     db[player2.name].handStats[player1.name] = {
       rock: countHands(result.log, player1.name, 'rock'),
       paper: countHands(result.log, player1.name, 'paper'),
       scissors: countHands(result.log, player1.name, 'scissors'),
-      dynamite: countHands(result.log, player1.name, 'dynamite'),
-      water: countHands(result.log, player1.name, 'water')
+      dynamite: countHands(result.log, player1.name, 'dynamite') + countHands(result.log, player1.name, '(exceeded dynamite)'),
+      water: countHands(result.log, player1.name, 'water'),
+      errors: countHands(result.log, player1.name, '')
     };
   };
 
@@ -92,10 +92,36 @@ var play = function(callback) {
 
   server.go(getPlayers(), gameFinished, function() {
     database.save();
+    console.log('Tournament finished');
     return callback();
   });
 };
 
+var getResults = function() {
+  var db = database.get();
+
+  var results = _.map(db, function(data, username) {
+    if (data.results) return {
+      username: username,
+      won: data.results.won,
+      lost: data.results.lost,
+      drew: data.results.drew,
+      score: data.results.won.toString() + data.results.drew.toString()
+    }
+  });
+
+  results = _.without(results, undefined);
+
+  var sortedResults = _.sortBy(results, 'score').reverse();
+
+  _.each(sortedResults, function(result, index) {
+    result.position = index + 1;
+  });
+
+  return sortedResults;
+};
+
 module.exports = {
-  play: play
+  play: play,
+  getResults: getResults
 };

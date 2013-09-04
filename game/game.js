@@ -141,7 +141,7 @@ var Game = function() {
     };
 
     var playRound = function() {
-      if (rounds >= 100) return finishGame();
+      if (rounds >= 50) return finishGame();
 
       player1.err = '';
       player2.err = '';
@@ -154,7 +154,7 @@ var Game = function() {
       var scoreRound = function() {
         rounds += 1;
 
-        checkDynamiteUsage(10);
+        checkDynamiteUsage(5);
 
         var result = score(player1, player2, carryPoints);
         carryPoints = result.draw ? (carryPoints + 1) : 0;
@@ -232,17 +232,31 @@ var Game = function() {
       return log;
     }
 
+    if (player1.hand === '(exceeded dynamite)') {
+      player2.wins += winPoints;
+      player1.losses += 1;
+      log.winner = player2.name;
+      return log;
+    }
+
+    if (player2.hand === '(exceeded dynamite)') {
+      player1.wins += winPoints;
+      player2.losses += 1;
+      log.winner = player1.name;
+      return log;
+    }
+
     if (!player1.hand) {
       player2.wins += winPoints;
       player1.losses += 1;
-      log.winner = player2.name + ' - ' + player1.name + ' default';
+      log.winner = player2.name + ' - ' + player1.name + ' timed out (100ms)';
       return log;
     }
 
     if (!player2.hand) {
       player1.wins += winPoints;
       player2.losses += 1;
-      log.winner = player1.name + ' - ' + player2.name + ' default';
+      log.winner = player1.name + ' - ' + player2.name + ' timed out (100ms)';
       return log;
     }
 

@@ -5,8 +5,8 @@ var init = function() {
 };
 
 var play = function() {
-  var hand = hands[Math.floor(Math.random() * 3)];
-  return Math.random() < 0.25 ? 'water' : hand;
+  if (Math.random() < 0.25) make.bang();
+  return hands[Math.floor(Math.random() * 3)];
 };
 
 var result = function(result) {

@@ -1,9 +1,10 @@
-var database = require('../data/db');
+var tournament = require('../tournament');
 var _ = require('underscore');
 
 var routes = function(app) {
   app.get('/results', function(req, res) {
-    return res.render('results');
+    var results = tournament.getResults();
+    return res.render('results', { results: results });
   });
 };
 

@@ -23,6 +23,9 @@ var buildFixtures = function(players) {
 
 var go = function(players, onGameComplete, onFinished) {
   var fixtures = buildFixtures(players);
+  var matchesComplete = 0;
+
+  console.log('Tournament starting with ' + fixtures.length + ' games...');
 
   var queue = async.queue(function(fixture, callback) {
     var game = child.fork(__dirname + '/game');
@@ -37,6 +40,8 @@ var go = function(players, onGameComplete, onFinished) {
 
     game.on('message', function(data) {
       onGameComplete(command.player1, command.player2, data.result);
+      console.log('Game ' + (++matchesComplete) + '/' + fixtures.length +': ' + command.player1.name + ', ' + command.player2.name + ')');
+      game.kill();
       callback();
     });
   }, 40);

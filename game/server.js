@@ -44,7 +44,7 @@ var go = function(players, onGameComplete, onFinished) {
       game.kill();
       callback();
     });
-  }, 40);
+  }, 20);
 
   queue.push(fixtures);
   queue.drain = onFinished;

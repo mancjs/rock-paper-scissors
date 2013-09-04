@@ -106,7 +106,7 @@ var getResults = function() {
       won: data.results.won,
       lost: data.results.lost,
       drew: data.results.drew,
-      score: data.results.won.toString() + data.results.drew.toString()
+      score: parseInt(data.results.won.toString() + data.results.drew.toString(), 10)
     }
   });
 

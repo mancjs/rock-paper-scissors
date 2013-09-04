@@ -26,6 +26,7 @@ var generateHandHistory = function(history, yourusername) {
       youWon: user.youWon,
       youDrew: user.youDrew,
       you: user.you,
+      err: user.err,
       opponent: user.opponent,
       handsPlayed: user.handsPlayed,
       hands: _.map(user.hands, function(hand) {

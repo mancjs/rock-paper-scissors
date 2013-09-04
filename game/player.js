@@ -9,14 +9,13 @@ var player = {
 };
 
 var startHeap = process.memoryUsage().heapTotal;
-var currentHeap;
+var currentHeap = 0;
 var memoryTimer;
 
 process.on('message', function(data) {
   if (data.command === 'init') return init(data.script, data.opponent);
   if (data.command === 'play') return play();
   if (data.command === 'result') return result(data.result);
-  if (data.command === 'end') return end();
 });
 
 process.on('uncaughtException', function(err) {
@@ -49,10 +48,6 @@ var play = function() {
 
 var result = function(result) {
   player.result(result);
-};
-
-var end = function() {
-  player.end();
 };
 
 memoryTimer = setInterval(checkMemoryUsage, 1000);

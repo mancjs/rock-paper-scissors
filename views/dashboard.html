@@ -77,6 +77,17 @@
   </div>
 
   <div class="hands-container">
+    {{#1.err}}
+    <div class="bot-error-header">
+    Bot failed to start
+    </div>
+
+    <div class="bot-error-reason">
+    {{1.err}}
+    </div>
+    {{/1.err}}
+
+    {{^1.err}}
     <table border="0" class="table">
       <thead>
       <tr>
@@ -94,6 +105,7 @@
       </tr>
       {{/1.hands}}
     </table>
+    {{/1.err}}
   </div>
 
   {{/handHistory}}

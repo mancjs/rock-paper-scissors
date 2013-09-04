@@ -28,6 +28,8 @@ var play = function(callback) {
   };
 
   var gameFinished = function(player1, player2, result) {
+    //console.log(result);
+
     if (result.winner === player1.name) {
       db[player1.name].results.won += 1;
       db[player2.name].results.lost += 1;
@@ -49,7 +51,8 @@ var play = function(callback) {
       you: result[player1.name],
       opponent: result[player2.name],
       handsPlayed: result.log.length,
-      hands: result.log
+      hands: result.log,
+      err: result.err
     };
 
     db[player2.name].history[player1.name] = {
@@ -58,7 +61,8 @@ var play = function(callback) {
       you: result[player2.name],
       opponent: result[player1.name],
       handsPlayed: result.log.length,
-      hands: result.log
+      hands: result.log,
+      err: result.err
     };
 
     var countHands = function(logs, player, hand) {

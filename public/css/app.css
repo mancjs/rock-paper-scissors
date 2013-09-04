@@ -230,3 +230,18 @@ button.submit {
   color: #777;
   text-shadow: 1px 1px #fff;
 }
+
+.bot-error-header {
+  margin: 20px 20px 10px 20px;
+  font-size: 20px;
+  font-weight: 400;
+  color: #444;
+}
+
+.bot-error-reason {
+  margin: 0px 20px 10px 20px;
+  font-size: 14px;
+  font-weight: 300;
+  color: #444;
+  font-family: 'courier';
+}

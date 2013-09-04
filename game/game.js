@@ -26,14 +26,56 @@ var Game = function() {
     sendCommand(player2.process, 'init', { opponent: player1.name, script: player2.script });
 
     var doReadyCheck = function() {
+      if (player1.err) {
+        var result = {
+          winner: player2.name,
+          err: player1.name + ' died with: ' + player1.err,
+          log: []
+        };
+
+        result[player1.name] = { w: 0, d: 0, l: 0 };
+        result[player2.name] = { w: 0, d: 0, l: 0 };
+
+        return callback(result);
+      }
+
+      if (player2.err) {
+        var result = {
+          winner: player1.name,
+          err: player2.name + ' died with: ' + player2.err,
+          log: []
+        };
+
+        result[player1.name] = { w: 0, d: 0, l: 0 };
+        result[player2.name] = { w: 0, d: 0, l: 0 };
+
+        return callback(result);
+      }
+
       if (!player1.ready) {
-        player2.wins += 1;
-        return callback({ winner: player2.name + ' - ' + player1.name + ' took to long to init' });
+        var result = {
+          winner: player2.name,
+          err: player1.name + ' took too long to start (> ' + timeout + 'ms)',
+          log: []
+        };
+
+        result[player1.name] = { w: 0, d: 0, l: 0 };
+        result[player2.name] = { w: 0, d: 0, l: 0 };
+
+        return callback(result);
       }
 
       if (!player2.ready) {
-        player1.wins += 1;
-        return callback({ winner: player1.name + ' - ' + player2.name + ' took to long to init' });
+        var result = {
+          winner: player1.name,
+          err: player2.name + ' took too long to start (> ' + timeout + 'ms)',
+          log: []
+        };
+
+        result[player1.name] = { w: 0, d: 0, l: 0 };
+        result[player2.name] = { w: 0, d: 0, l: 0 };
+
+        return callback(result);
       }
 
       return callback();
@@ -226,7 +268,7 @@ var Game = function() {
     player2.process.on('message', _.partial(receiveEvent, player2));
     player2.process.on('error', function() {});
 
-    loadPlayers(player1, player2, 10000, function(winner) {
+    loadPlayers(player1, player2, 5000, function(winner) {
       if (winner) {
         player1.process.kill();
         player2.process.kill();

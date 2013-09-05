@@ -1,2 +1,8 @@
 ## MancJS September: Rock-paper-scissors
-A quick server to host the game and run the bots against each other.
+The server used to run the MancJS rock-paper-scissors tournament.
+
+### Instructions
+
+* Clone the repo
+* `npm install`
+* `node rps`

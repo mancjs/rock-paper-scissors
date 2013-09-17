@@ -210,7 +210,8 @@ var Game = function() {
       if (player.memoryExceeded) {
         player.losses += 1;
         opponent.wins += winPoints;
-        log.winner = opponent.name + ' - ' + player.name + ' exceeded memory limit';
+        log.winner = opponent.name;
+        log.message = player.name + ' exceeded memory limit';
         return true;
       }
 
@@ -221,7 +222,8 @@ var Game = function() {
       if (player.err) {
         player.losses += 1;
         opponent.wins += winPoints;
-        log.winner = opponent.name + ' - ' + player.name + ': ' + player.err;
+        log.winner = opponent.name;
+        log.message = player.name + ': ' + player.err;
         return true;
       }
 
@@ -237,7 +239,7 @@ var Game = function() {
     if (player1.hand === player2.hand) {
       player1.draws += 1;
       player2.draws += 1;
-      log.winner = 'draw - point carries';
+      log.winner = 'draw';
       log.draw = true;
       return log;
     }
@@ -259,14 +261,16 @@ var Game = function() {
     if (!player1.hand) {
       player2.wins += winPoints;
       player1.losses += 1;
-      log.winner = player2.name + ' - ' + player1.name + ' timed out (100ms)';
+      log.winner = player2.name;
+      log.message = player1.name + ' timed out (100ms)';
       return log;
     }
 
     if (!player2.hand) {
       player1.wins += winPoints;
       player2.losses += 1;
-      log.winner = player1.name + ' - ' + player2.name + ' timed out (100ms)';
+      log.winner = player1.name;
+      log.message = player2.name + ' timed out (100ms)';
       return log;
     }
 
@@ -320,3 +324,4 @@ process.on('message', function(data) {
     });
   }
 });
+

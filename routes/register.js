@@ -22,6 +22,7 @@ var addUser = function(username) {
     key: key,
     botLOC: 0,
     botUploads: 0,
+    handStats: {},
     created: new Date()
   };
 

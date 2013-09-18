@@ -41,7 +41,6 @@ h2 div {
 input[type='file'] {
   color: transparent;
   display: inline;
-  width: 90px;
 }
 
 input[type='text'] {

@@ -21,6 +21,12 @@ Clears the database
 `/debug/play`
 Runs the game (every bot plays 50 hands with every other bot once)
 
+`/debug/registration/(on|off)`
+Enable or disable registration
+
+`/debug/rm/(username)`
+delete whoever `username` is
+
 `/results`
 Public results page updated after each `/debug/play`
 

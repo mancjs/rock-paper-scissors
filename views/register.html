@@ -33,7 +33,7 @@
     {{/registrationOff}}
 
     <form method="post" action="/register">
-      <input type="text" name="username" placeholder="enter username" {{#registrationOff}}disabled="disabled"{{/registrationOff}} />
+      <input type="text" name="username" autofocus placeholder="enter username" {{#registrationOff}}disabled="disabled"{{/registrationOff}} />
       <button type="submit" class="btn btn-success submit" {{#registrationOff}}disabled="disabled"{{/registrationOff}}>Create Team</button>
     </form>
 

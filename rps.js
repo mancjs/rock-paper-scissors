@@ -18,5 +18,6 @@ require('./routes/register')(app);
 require('./routes/dashboard')(app);
 require('./routes/results')(app);
 require('./routes/debug')(app);
+require('./routes/root')(app);
 
 http.createServer(app).listen(9987);
